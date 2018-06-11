@@ -55,10 +55,6 @@ public class Benutzer implements Serializable {
 		}
 	}
 	
-	public void setUser(String user){
-		this.user=user;
-	}
-	
 	public String getName() {
 		return vorName + " " + nachName;
 	}
