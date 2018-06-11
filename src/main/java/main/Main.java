@@ -1,155 +1,175 @@
 package main;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Set;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.BasicConfigurator;
-
+import org.hibernate.cfg.Configuration;
+import org.hibernate.query.NativeQuery;
 import model.*;
 
-// add hibernate
-import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.io.File;
 
 public class Main {
+    public static void main(String[] args) {
 
-	private static final Logger log = Logger.getLogger(Main.class);
+        //creating configuration object
+        Configuration cfg=new Configuration();
+	//load configuration file  from target classes = root
+	cfg.configure().buildSessionFactory();
+//	cfg.configure(new File("/home/mwintersperger/syt4/westbahn/src/main/java/main/hibernate.cfg.xml"));
 
-	private static EntityManagerFactory sessionFactory;
-	@PersistenceContext
-	private static EntityManager entitymanager;
-	
-	static SimpleDateFormat dateForm = new SimpleDateFormat("dd.MM.yyyy");
-	static SimpleDateFormat timeForm = new SimpleDateFormat("dd.MM.yyyy mm:hh");
+        //creating session factory object
+        SessionFactory factory=cfg.buildSessionFactory();
 
-	private Main() {
-		super();
-	}
+        //creating session object
+        Session session=factory.openSession();
 
-	public static void main(String[] args) {
+        //creating transaction object
+        Transaction t=session.beginTransaction();
 		
-		BasicConfigurator.configure();
-		System.out.println("###############################################");
-		System.out.println("HALLO WESTBAHN");
-		System.out.println("###############################################");
-		try {
-
-			//creating configuration object
-			Configuration cfg=new Configuration();
-			//load configuration file  from target classes = root
-			cfg.configure().buildSessionFactory();
-			//cfg.configure(new File("C:\Users\mwintersperger.DESKTOP-LGJUDK6\Desktop\Schule\2017-2018\SYT\Borko\Praxis\Komponentenbasierte-Programmierung\src\main\java\main\hibernate.cfg.xml"));
+		System.out.println("####################################");
+		System.out.println("Hallo Bahnhof");
+		System.out.println("####################################");
 		
-			log.info("Starting \"Mapping Perstistent Classes and Associations\" (task1)");
-			sessionFactory = Persistence.createEntityManagerFactory("westbahn");
-			entitymanager = sessionFactory.createEntityManager();
-			fillDB(entitymanager);
-			task01();
-			log.info("Starting \"Working with JPA-QL and the Hibernate Criteria API\" (task2)");
-			log.setLevel(Level.OFF);
-			task02();
-			task02a();
-			task02b();
-			task02c();
-			log.setLevel(Level.ALL);
-			task03(entitymanager);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-/*			if (entitymanager.getTransaction().isActive())
-				entitymanager.getTransaction().rollback();
-			entitymanager.close();
-			sessionFactory.close();
-			*/
-		}
-		System.out.println("###############################################");
-		System.out.println("BYE WESTBAHN");
-		System.out.println("###############################################");
-	}
-
-	public static void fillDB(EntityManager em) throws ParseException {
-		em.getTransaction().begin();
-		// Bahnhöfe
+        Bahnhof westbhf = new Bahnhof("Wien Westbhf", 100, 100, 100, true);
+        Bahnhof hütteldorf = new Bahnhof("Wien Hütteldorf", 90, 90, 90, false);
+        Bahnhof poelten = new Bahnhof("St. Pölten", 30, 20, 100, true);
+        Bahnhof amstetten = new Bahnhof("Amstetten", 20, 80, 20, false);
+        Bahnhof linz = new Bahnhof("Linz", 100, 80, 0, false);
+        Bahnhof wels = new Bahnhof("Wels", 60, 60, 60, false);
+        Bahnhof attnang = new Bahnhof("Attnang-Puchheim", 70, 80, 90, false);
+        Bahnhof salzburg = new Bahnhof("Salzburg", 120, 200, 150, true);
 		
-		List<Bahnhof> list1 = new ArrayList<Bahnhof>();
-		list1.add(new Bahnhof("WienHbf", 0, 0, 0, true));
-		list1.add(new Bahnhof("SalzburgHbf", 20, 60, 120, true));
-		list1.add(new Bahnhof("Amstetten", 40, 124, 169, false));
-		list1.add(new Bahnhof("Linz-Ost", 140, 320, 250, false));
-		list1.add(new Bahnhof("Huetteldorf", 3, 5, 19, false));
-		list1.add(new Bahnhof("Wels-Zentrum", 102, 400, 250, true));
-		for (Bahnhof bah : list1){
-			em.persist(bah);
-		}
-		// Strecken
-		List<Strecke> list2 = new ArrayList<Strecke>();
-		list2.add(new Strecke(list1.get(0), list1.get(5), list1.get(1))); // Wien, Wels, Salzburg
-		list2.add(new Strecke(list1.get(0), list1.get(2), list1.get(3))); // Wien, Amstetten, Linz
-		list2.add(new Strecke(list1.get(0), list1.get(3), list1.get(1))); // Wien, Linz, Salzburg
-		for (Strecke str : list2){
-			em.persist(str);
-		}
-		em.flush();
-		em.getTransaction().commit();
-	}
+		System.out.println("####################################");
+		System.out.println("Hallo Strecke");
+		System.out.println("####################################");
+		
+        Strecke wien = new Strecke(westbhf, null, hütteldorf);
+        Strecke west_wels = new Strecke(westbhf, wels, salzburg);
+        Strecke west_linz = new Strecke(westbhf, linz, salzburg);
+        Strecke poelten_attnang = new Strecke(poelten, amstetten, attnang);
+		
+		System.out.println("####################################");
+		System.out.println("Hallo Zug");
+		System.out.println("####################################");
+		
+        Zug wiener_linien = new Zug(westbhf, hütteldorf, at_time(5, 20), 450, 20, 10);
+        Zug szbg_wels = new Zug(salzburg, wels, at_time(12, 12), 500, 0, 30);
+        Zug poelten_attnang_zug = new Zug(poelten, attnang, at_time(13, 25), 250, 0, 0);
 
-	public static void task01() throws ParseException, InterruptedException {
-	}
+        Zahlung kredit = new Kreditkarte();
+        Zahlung maestro = new Maestro();
+        Zahlung praemien = new Praemienmeilen();
 
-	public static <T> void task02() throws ParseException {
-		Query q = entitymanager.createNamedQuery("Bahnhof.getAll");
+        Ticket wochenkarte_heute = new Zeitkarte(ZeitkartenTyp.WOCHENKARTE, new Date(), wien, kredit);
+        Ticket monatskarte_morgen = new Zeitkarte(ZeitkartenTyp.MONATSKARTE,
+                new Date(2018, 3, Calendar.DAY_OF_MONTH+1), west_wels, maestro);
+				
+		System.out.println("####################################");
+		System.out.println("Hallo Benutzer");
+		System.out.println("####################################");
+		
+        Benutzer pfuchs = new Benutzer("Peter", "Fuchs", "pfuchs@student.tgm.ac.at", "1234", "1234", 0l, monatskarte_morgen);
+        Benutzer astrasser = new Benutzer("Alexander", "Strasser", "astrasser@student.tgm.ac.at", "4321", "14432342", 100l, wochenkarte_heute);
+		
+		System.out.println("####################################");
+		System.out.println("Hallo Reservierung");
+		System.out.println("####################################");
+		
+        Reservierung salzburg_res = new Reservierung(get_tomorrow(), 15, 150, StatusInfo.ONTIME, szbg_wels, west_wels, astrasser, maestro);
+        Reservierung wels_res = new Reservierung(date_plus_days(4), 15, 150, StatusInfo.DELAYED, szbg_wels, west_wels, astrasser, kredit);
+        Reservierung poelten_res = new Reservierung(get_tomorrow(), 25, 150, StatusInfo.CANCELLED, poelten_attnang_zug, poelten_attnang, pfuchs, kredit);
 
-		List<?> l = q.getResultList();
+        session.persist(westbhf);
+        session.persist(hütteldorf);
+        session.persist(poelten);
+        session.persist(amstetten);
+        session.persist(linz);
+        session.persist(wels);
+        session.persist(attnang);
+        session.persist(salzburg);
 
-		for (Object b : l) {
-			Bahnhof bhf = null;
-			if (b instanceof Bahnhof) {
-				bhf = (Bahnhof) b;
-				System.out.println("Bahnhof: " + bhf.getName());
-			}
-		}
-	}
+        session.persist(wien);
+        session.persist(west_wels);
+        session.persist(west_linz);
+        session.persist(poelten_attnang);
 
-	public static void task02a() throws ParseException {
-	}
+        session.persist(wiener_linien);
+        session.persist(szbg_wels);
+        session.persist(poelten_attnang_zug);
 
-	public static void task02b() throws ParseException {
-	}
+        session.persist(wochenkarte_heute);
+        session.persist(monatskarte_morgen);
 
-	public static void task02c() throws ParseException {
-	}
+        session.persist(pfuchs);
+        session.persist(astrasser);
 
-	public static void task03(EntityManager em) {
-	}
+        session.persist(salzburg_res);
+        session.persist(wels_res);
+		
+        session.persist(poelten_res);
+		System.out.println("####################################");
+		System.out.println("finished persistent");
+		System.out.println("####################################");
+		
+        t.commit();//transaction is commited
 
-	public static void validate(Object obj) {
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		Validator validator = factory.getValidator();
-		Set<ConstraintViolation<Object>> violations = validator.validate(obj);
-		for (ConstraintViolation<Object> violation : violations) {
-			log.error(violation.getMessage());
-			System.out.println(violation.getMessage());
-		}
-	}
+/*
+        //a)
+        Query query = session.getNamedQuery("getAllReservationsForEMail");
+        query.setParameter("eMail", "astrasser@student.tgm.ac.at");
+        List<Reservierung> reservierungen = query.list();
+        System.out.println(reservierungen.size());
+        for (Reservierung r : reservierungen)
+            System.out.println(r.showReservierung());
+
+        //b)
+
+        query = session.getNamedQuery("getAllUsersWithMonthTicket");
+        List<Benutzer> l = query.list();
+        System.out.println(l.size());
+        for (Benutzer str : l) {
+            System.out.println(str.getUser());
+        }
+
+        //c)
+
+        query = session.getNamedQuery("getAllTicketsWithoutReservation");
+        query.setParameter("start", 1);
+        query.setParameter("ende", 2);
+        List<Ticket> tickets = query.list();
+        System.out.println(tickets.size());
+        for (Ticket tick : tickets)
+            System.out.println(tick.print() + " und hat KEINE Reservierung");
+*/
+
+        session.close();
+
+        System.out.println("successfully saved");
+
+    }
+
+    @SuppressWarnings("deprecation")
+    public static Date date_plus_days(int days) {
+        Date d = new Date();
+        d.setDate(d.getDate()+days);
+        return d;
+    }
+
+    @SuppressWarnings("deprecation")
+    public static Date at_time(int hour, int min) {
+        Date d = new Date();
+        d.setHours(hour);
+        d.setMinutes(min);
+        return d;
+    }
+
+    public static Date get_tomorrow() {
+        return date_plus_days(1);
+    }
 }
