@@ -56,7 +56,7 @@ public class Benutzer implements Serializable {
 	}
 	
 	public void setUser(String user){
-		this.user=user:
+		this.user=user;
 	}
 	
 	public String getName() {
@@ -72,7 +72,7 @@ public class Benutzer implements Serializable {
 		return this.eMail;
 	}
 	
-	public void setEmail(String email){
-		this.email=email;
+	public void setEMail(String eMail){
+		this.eMail=eMail;
 	}
 }
