@@ -36,6 +36,8 @@
         <mapping class="model.Praemienmeilen" />
         <mapping class="model.Sonderangebot" />
         <mapping class="model.StatusInfo" />
+        <mapping class="model.Reservierung" />
+		<mapping resource="reservierung.hbm.xml" 
 
     </session-factory>
   

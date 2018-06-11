@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>  
+<!DOCTYPE hibernate-mapping PUBLIC  "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+
+<hibernate-mapping>  
+	<class name="model.Reservierung">
+		<id name="ID" access="field">
+			<generator class="increment" />
+		</id>
+		<many-to-one name="benutzer" class="model.Benutzer" access="field" />
+		<one-to-one name="zug" class="model.Zug" access="field" />
+		<many-to-one name="strecke" class="model.Strecke" access="field" />
+		<component name="status" class="model.StatusInfo" access="field" />
+		<property name="datum" type="java.util.Date" access="field" />
+		<property name="preis" type="int" access="field" />
+		<component name="zahlung" class="model.Zahlung" access="field" />
+		<property name="praemienMeilenBonus" type="int" access="field" />
+	</class>
+</hibernate-mapping> 
