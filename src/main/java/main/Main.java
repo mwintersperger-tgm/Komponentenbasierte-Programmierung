@@ -28,6 +28,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import java.io.File;
+
 public class Main {
 
 	private static final Logger log = Logger.getLogger(Main.class);
@@ -51,6 +53,12 @@ public class Main {
 		System.out.println("###############################################");
 		try {
 
+			//creating configuration object
+			Configuration cfg=new Configuration();
+			//load configuration file  from target classes = root
+			cfg.configure().buildSessionFactory();
+			//cfg.configure(new File("C:\Users\mwintersperger.DESKTOP-LGJUDK6\Desktop\Schule\2017-2018\SYT\Borko\Praxis\Komponentenbasierte-Programmierung\src\main\java\main\hibernate.cfg.xml"));
+		
 			log.info("Starting \"Mapping Perstistent Classes and Associations\" (task1)");
 			sessionFactory = Persistence.createEntityManagerFactory("westbahn");
 			entitymanager = sessionFactory.createEntityManager();
