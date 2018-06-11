@@ -8,10 +8,10 @@
 		<property name="connection.url">jdbc:h2:C:\Users\mwintersperger.DESKTOP-LGJUDK6\Desktop\Schule\2017-2018\SYT\Borko\Praxis\Komponentenbasierte-Programmierung\db</property>
 		<property name="connection.username">sa</property>
 		<property name="connection.password"/>
-
+		
 		<!-- JDBC connection pool (use the built-in) -->
 		<property name="connection.pool_size">1</property>
-
+		
 		<!-- SQL dialect -->
 		<property name="dialect">org.hibernate.dialect.H2Dialect</property>
 
@@ -20,25 +20,25 @@
 
 		<!-- Drop and re-create the database schema on startup -->
 		<property name="hbm2ddl.auto">create</property>
-
-        <!-- Map classes/resources -->
-        <mapping class="model.Bahnhof" />
-        <mapping class="model.Strecke" />
-        <mapping class="model.Zug" />
-        <mapping class="model.Benutzer" />
-        <mapping class="model.Ticket" />
-        <mapping class="model.TicketOption" />
-        <mapping class="model.Zeitkarte" />
-        <mapping class="model.ZeitkartenTyp" />
-        <mapping class="model.Einzelticket" />
-        <mapping class="model.Kreditkarte" />
-        <mapping class="model.Maestro" />
-        <mapping class="model.Praemienmeilen" />
-        <mapping class="model.Sonderangebot" />
-        <mapping class="model.StatusInfo" />
-        <mapping class="model.Reservierung" />
+		
+		<!-- Map classes/resources -->
+		<mapping class="model.Bahnhof" />
+		<mapping class="model.Strecke" />
+		<mapping class="model.Zug" />
+		<mapping class="model.Benutzer" />
+		<mapping class="model.Ticket" />
+		<mapping class="model.TicketOption" />
+		<mapping class="model.Zeitkarte" />
+		<mapping class="model.ZeitkartenTyp" />
+		<mapping class="model.Einzelticket" />
+		<mapping class="model.Kreditkarte" />
+		<mapping class="model.Maestro" />
+		<mapping class="model.Praemienmeilen" />
+		<mapping class="model.Sonderangebot" />
+		<mapping class="model.StatusInfo" />
+		<mapping class="model.Reservierung" />
 		<mapping resource="reservierung.hbm.xml" />
 
-    </session-factory>
-  
+	</session-factory>
+	
 </hibernate-configuration>  
