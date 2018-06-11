@@ -28,7 +28,7 @@ public class Zeitkarte extends Ticket implements Serializable {
 
 	@Override
 	public String print() {
-		return "Ticket mit der ID " + super.ID + " ist gültig ab " + gueltigAb.toString() + " und ist vom Typ " + typ;
+		return "Ticket mit der ID " + super.ID + " ist gültig ab " + gueltigAb.toString() + " und ist vom Typ: " + typ;
 	}
 
 }
