@@ -55,30 +55,36 @@ public class Main {
 
 			// Stolen from HibernateUti(https://gist.github.com/yusufcakmak/215ede715bab0e1d6489)
 			// loading hibernate.cfg.xml from root
-			Configuration configuration = new Configuration();
-			configuration.configure().buildSessionFactory();
+			//Configuration configuration = new Configuration();
+			//configuration.configure().buildSessionFactory();
 			
-			SessionFactory factory = configuration.buildSessionFactory();
-			Session entitymanager = factory.openSession();
+			//SessionFactory factory = configuration.buildSessionFactory();
+			//Session entitymanager = factory.openSession();
 			
 			log.info("Starting \"Mapping Perstistent Classes and Associations\" (task1)");
-			//sessionFactory = Persistence.createEntityManagerFactory("westbahn");
-			//entitymanager = sessionFactory.createEntityManager();
+			sessionFactory = Persistence.createEntityManagerFactory("westbahn");
+			entitymanager = sessionFactory.createEntityManager();
 			
 			
 			fillDB(entitymanager);
 			task01();
 			log.info("Starting \"Working with JPA-QL and the Hibernate Criteria API\" (task2)");
 			log.setLevel(Level.OFF);
-//			task02();
+			task02();
 //			task02a();
 //			task02b();
 //			task02c();
 			log.setLevel(Level.ALL);
 			task03(entitymanager);
 		} catch (ParseException e) {
+			System.out.println("###############################################");
+			System.out.println("Parse Exception");
+			System.out.println("###############################################");
 			e.printStackTrace();
 		} catch (Exception e) {
+			System.out.println("###############################################");
+			System.out.println("Exception");
+			System.out.println("###############################################");
 			e.printStackTrace();
 		} finally {
 /*			if (entitymanager.getTransaction().isActive())
@@ -132,6 +138,10 @@ public class Main {
 	}
 
 	public static <T> void task02() throws ParseException {
+		System.out.println("###############################################");
+		System.out.println("Bahnhof Query");
+		System.out.println("###############################################");
+
 		Query q = entitymanager.createNamedQuery("Bahnhof.getAll");
 
 		List<?> l = q.getResultList();
