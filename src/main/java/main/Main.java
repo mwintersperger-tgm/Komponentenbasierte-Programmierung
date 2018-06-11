@@ -53,23 +53,27 @@ public class Main {
 		System.out.println("###############################################");
 		try {
 
-			//creating configuration object
-			Configuration cfg=new Configuration();
-			//load configuration file  from target classes = root
-			cfg.configure().buildSessionFactory();
-			//cfg.configure(new File("C:\Users\mwintersperger.DESKTOP-LGJUDK6\Desktop\Schule\2017-2018\SYT\Borko\Praxis\Komponentenbasierte-Programmierung\src\main\java\main\hibernate.cfg.xml"));
-		
+			// Stolen from HibernateUti(https://gist.github.com/yusufcakmak/215ede715bab0e1d6489)
+			// loading hibernate.cfg.xml from root
+			Configuration configuration = new Configuration();
+			configuration.configure().buildSessionFactory();
+			
+			SessionFactory factory = configuration.buildSessionFactory();
+			Session entitymanager = factory.openSession();
+			
 			log.info("Starting \"Mapping Perstistent Classes and Associations\" (task1)");
-			sessionFactory = Persistence.createEntityManagerFactory("westbahn");
-			entitymanager = sessionFactory.createEntityManager();
+			//sessionFactory = Persistence.createEntityManagerFactory("westbahn");
+			//entitymanager = sessionFactory.createEntityManager();
+			
+			
 			fillDB(entitymanager);
 			task01();
 			log.info("Starting \"Working with JPA-QL and the Hibernate Criteria API\" (task2)");
 			log.setLevel(Level.OFF);
-			task02();
-			task02a();
-			task02b();
-			task02c();
+//			task02();
+//			task02a();
+//			task02b();
+//			task02c();
 			log.setLevel(Level.ALL);
 			task03(entitymanager);
 		} catch (ParseException e) {
@@ -90,8 +94,11 @@ public class Main {
 
 	public static void fillDB(EntityManager em) throws ParseException {
 		em.getTransaction().begin();
-		// Bahnhöfe
 		
+		System.out.println("###############################################");
+		System.out.println("Fill Bahnhoefe");
+		System.out.println("###############################################");
+		// Bahnhöfe
 		List<Bahnhof> list1 = new ArrayList<Bahnhof>();
 		list1.add(new Bahnhof("WienHbf", 0, 0, 0, true));
 		list1.add(new Bahnhof("SalzburgHbf", 20, 60, 120, true));
@@ -102,6 +109,10 @@ public class Main {
 		for (Bahnhof bah : list1){
 			em.persist(bah);
 		}
+		
+		System.out.println("###############################################");
+		System.out.println("Fill Strecken");
+		System.out.println("###############################################");
 		// Strecken
 		List<Strecke> list2 = new ArrayList<Strecke>();
 		list2.add(new Strecke(list1.get(0), list1.get(5), list1.get(1))); // Wien, Wels, Salzburg
@@ -115,6 +126,9 @@ public class Main {
 	}
 
 	public static void task01() throws ParseException, InterruptedException {
+		System.out.println("###############################################");
+		System.out.println("Finished Task01");
+		System.out.println("###############################################");
 	}
 
 	public static <T> void task02() throws ParseException {

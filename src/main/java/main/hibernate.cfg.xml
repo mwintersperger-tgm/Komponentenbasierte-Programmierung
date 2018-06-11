@@ -5,7 +5,7 @@
 	<session-factory>
 		<!-- Database connection settings -->
 		<property name="connection.driver_class">org.h2.Driver</property>
-		<property name="connection.url">jdbc:h2:C:\Users\mwintersperger.DESKTOP-LGJUDK6\Desktop\Schule\2017-2018\SYT\Borko\Praxis\Komponentenbasierte-Programmierung\db</property>
+		<property name="connection.url">jdbc:h2:C:\Users\mwintersperger.DESKTOP-LGJUDK6\Desktop\Schule\2017-2018\SYT\Borko\Praxis\Komponentenbasierte-Programmierung\db\westbahn</property>
 		<property name="connection.username">sa</property>
 		<property name="connection.password"/>
 		
@@ -36,7 +36,7 @@
 		<mapping class="model.Praemienmeilen" />
 		<mapping class="model.Sonderangebot" />
 		<mapping class="model.StatusInfo" />
-		<mapping class="model.Reservierung" />
+		<!-- <mapping class="model.Reservierung" /> -->
 		<mapping resource="reservierung.hbm.xml" />
 
 	</session-factory>
