@@ -22,6 +22,12 @@ import org.apache.log4j.BasicConfigurator;
 
 import model.*;
 
+// add hibernate
+import org.hibernate.cfg.Configuration;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
 public class Main {
 
 	private static final Logger log = Logger.getLogger(Main.class);
@@ -44,6 +50,7 @@ public class Main {
 		System.out.println("HALLO WESTBAHN");
 		System.out.println("###############################################");
 		try {
+
 			log.info("Starting \"Mapping Perstistent Classes and Associations\" (task1)");
 			sessionFactory = Persistence.createEntityManagerFactory("westbahn");
 			entitymanager = sessionFactory.createEntityManager();
