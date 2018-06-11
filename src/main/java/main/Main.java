@@ -75,15 +75,26 @@ public class Main {
 
 	public static void fillDB(EntityManager em) throws ParseException {
 		em.getTransaction().begin();
-		List<Bahnhof> list = new ArrayList<Bahnhof>();
-		list.add(new Bahnhof("WienHbf", 0, 0, 0, true));
-		list.add(new Bahnhof("SalzburgHbf", 20, 60, 120, true));
-		list.add(new Bahnhof("Amstetten", 40, 124, 169, false));
-		list.add(new Bahnhof("Linz-Ost", 140, 320, 250, false));
-		list.add(new Bahnhof("Huetteldorf", 3, 5, 19, false));
-		list.add(new Bahnhof("Wels-Zentrum", 102, 400, 250, true));
-		for (Bahnhof b : list)
-			em.persist(b);
+		// Bahnhöfe
+		
+		List<Bahnhof> list1 = new ArrayList<Bahnhof>();
+		list1.add(new Bahnhof("WienHbf", 0, 0, 0, true));
+		list1.add(new Bahnhof("SalzburgHbf", 20, 60, 120, true));
+		list1.add(new Bahnhof("Amstetten", 40, 124, 169, false));
+		list1.add(new Bahnhof("Linz-Ost", 140, 320, 250, false));
+		list1.add(new Bahnhof("Huetteldorf", 3, 5, 19, false));
+		list1.add(new Bahnhof("Wels-Zentrum", 102, 400, 250, true));
+		for (Bahnhof bah : list1){
+			em.persist(bah);
+		}
+		// Strecken
+		List<Strecke> list2 = new ArrayList<Strecke>();
+		list2.add(new Strecke(list1.get(0), list1.get(5), list1.get(1))); // Wien, Wels, Salzburg
+		list2.add(new Strecke(list1.get(0), list1.get(2), list1.get(3))); // Wien, Amstetten, Linz
+		list2.add(new Strecke(list1.get(0), list1.get(3), list1.get(1))); // Wien, Linz, Salzburg
+		for (Strecke str : list2){
+			em.persist(str);
+		}
 		em.flush();
 		em.getTransaction().commit();
 	}

@@ -23,10 +23,10 @@ public class Strecke {
 
 	public Strecke() {}
 
-	public Strecke(Bahnhof start, Bahnhof ende, Bahnhof bahnhof) {
+	public Strecke(Bahnhof start, Bahnhof bahnhof, Bahnhof ende) {
 		this.start = start;
-		this.ende = ende;
 		this.bahnhof = bahnhof;
+		this.ende = ende;
 		this.endeIsStart = this.ende.getName().equals(this.start.getName());
 	}
 	
