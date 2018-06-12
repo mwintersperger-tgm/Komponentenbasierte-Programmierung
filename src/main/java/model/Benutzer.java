@@ -8,11 +8,14 @@ import javax.validation.constraints.Pattern;
 
 @NamedQueries({
 	@NamedQuery(
-	name = "getReservationsFromMail",
-	query = "from Reservierung r inner join fetch r.benutzer as b WHERE b.eMail = :eMail"
+		name = "getReservationsFromMail",
+		query = "from Reservierung r inner join fetch r.benutzer as b WHERE b.eMail = :eMail"
 	),
+	@NamedQuery(
+		name = "getUsersWithZeitkartentypMonatskarte",
+		query = "FROM Benutzer b inner join fetch Ticket t WHERE t.DTYPE = 'MONATSKARTE'"
+	)
 })
-
 
 @Entity
 public class Benutzer implements Serializable {

@@ -59,6 +59,7 @@ public class Main {
 		try {
 
 			// Stolen from HibernateUti(https://gist.github.com/yusufcakmak/215ede715bab0e1d6489)
+			
 			// loading hibernate.cfg.xml from root
 			// Mit Hibernate
 			//Configuration configuration = new Configuration();
@@ -77,7 +78,7 @@ public class Main {
 			task01();
 			log.info("Starting \"Working with JPA-QL and the Hibernate Criteria API\" (task2)");
 			log.setLevel(Level.OFF);
-//			task02();
+			task02();
 			task02a();
 //			task02b();
 //			task02c();
