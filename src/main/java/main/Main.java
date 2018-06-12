@@ -271,11 +271,11 @@ public class Main {
 		System.out.println(ende.get(0).getName());
 		System.out.println("###############################################");
 		
-/*		
+		
 //		Query q = entitymanager.getNamedQuery("getUnreservedTicketsofStrecke");
 		Query q = entitymanager.createNamedQuery("getUnreservedTicketsofStrecke");
-        q.setParameter("start", 1); // Wien
-        q.setParameter("ende", 2); // Salzburg
+        q.setParameter("start", start.get(0)); // Wien
+        q.setParameter("ende", ende.get(0)); // Salzburg
  
 		List<Ticket> tickets = q.getResultList();
 //      List<Ticket> tickets = q.list();
@@ -284,7 +284,7 @@ public class Main {
             System.out.println(t.print());
 		}
 		System.out.println("###############################################");
-		*/
+		
 	}
 
 	public static void task03(EntityManager em) {
