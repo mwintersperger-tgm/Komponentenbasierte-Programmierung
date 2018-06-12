@@ -6,7 +6,14 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.Type;
 
 @Entity
-@NamedQueries ({@NamedQuery(name="Bahnhof.getAll",query="SELECT b from Bahnhof b")})
+@NamedQueries({
+	@NamedQuery(
+	name="Bahnhof.getAll",query="SELECT b FROM Bahnhof b"
+	),
+	@NamedQuery(
+	name="getNamedBahnhof",query="SELECT b FROM Bahnhof b WHERE b.name = :name"
+	)
+})
 public class Bahnhof {
 
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)

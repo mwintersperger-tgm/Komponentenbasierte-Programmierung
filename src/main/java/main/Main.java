@@ -81,7 +81,7 @@ public class Main {
 			task02();
 			task02a();
 			task02b();
-//			task02c();
+			task02c();
 			log.setLevel(Level.ALL);
 			task03(entitymanager);
 		} catch (ParseException e) {
@@ -251,6 +251,40 @@ public class Main {
 	}
 
 	public static void task02c() throws ParseException {
+		System.out.println("###############################################");
+		System.out.println("Tickets der Strecke ohne Reservierung");
+		System.out.println("###############################################");
+		
+		Query q1 = entitymanager.createNamedQuery("getNamedBahnhof");
+        q1.setParameter("name", "WienHbf");
+ 
+		List<Bahnhof> start = q1.getResultList();
+		System.out.println("###############################################");
+		System.out.println(start.get(0).getName());
+		System.out.println("###############################################");
+		
+		Query q2 = entitymanager.createNamedQuery("getNamedBahnhof");
+        q2.setParameter("name", "SalzburgHbf");
+ 
+		List<Bahnhof> ende = q2.getResultList();
+		System.out.println("###############################################");
+		System.out.println(ende.get(0).getName());
+		System.out.println("###############################################");
+		
+/*		
+//		Query q = entitymanager.getNamedQuery("getUnreservedTicketsofStrecke");
+		Query q = entitymanager.createNamedQuery("getUnreservedTicketsofStrecke");
+        q.setParameter("start", 1); // Wien
+        q.setParameter("ende", 2); // Salzburg
+ 
+		List<Ticket> tickets = q.getResultList();
+//      List<Ticket> tickets = q.list();
+        System.out.println("Records: "+tickets.size());
+        for (Ticket t : tickets){
+            System.out.println(t.print());
+		}
+		System.out.println("###############################################");
+		*/
 	}
 
 	public static void task03(EntityManager em) {
