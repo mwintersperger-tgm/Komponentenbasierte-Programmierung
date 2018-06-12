@@ -32,9 +32,6 @@ public class Zug {
 	private Bahnhof ende;
 	
 	public Zug() {}
-	public Zug(Bahnhof start, Bahnhof ende) {
-		this(start, ende, new Date(), 100, 10, 10);
-	}
 	
 	public Zug(Bahnhof start, Bahnhof ende, Date startZeit, int sitzPlaetze, int fahrradStellplaetze, int rollStuhlPlaetze) {
 		this.start = start;

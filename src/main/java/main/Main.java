@@ -27,8 +27,13 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.NativeQuery;
+//import org.hibernate.query.Query;
 
 import java.io.File;
+import java.util.List;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Main {
 
@@ -55,23 +60,23 @@ public class Main {
 
 			// Stolen from HibernateUti(https://gist.github.com/yusufcakmak/215ede715bab0e1d6489)
 			// loading hibernate.cfg.xml from root
-			//Configuration configuration = new Configuration();
-			//configuration.configure().buildSessionFactory();
+			Configuration configuration = new Configuration();
+			configuration.configure().buildSessionFactory();
 			
-			//SessionFactory factory = configuration.buildSessionFactory();
-			//Session entitymanager = factory.openSession();
+			SessionFactory factory = configuration.buildSessionFactory();
+			Session entitymanager = factory.openSession();
 			
 			log.info("Starting \"Mapping Perstistent Classes and Associations\" (task1)");
-			sessionFactory = Persistence.createEntityManagerFactory("westbahn");
-			entitymanager = sessionFactory.createEntityManager();
+			//sessionFactory = Persistence.createEntityManagerFactory("westbahn");
+			//entitymanager = sessionFactory.createEntityManager();
 			
 			
 			fillDB(entitymanager);
 			task01();
 			log.info("Starting \"Working with JPA-QL and the Hibernate Criteria API\" (task2)");
 			log.setLevel(Level.OFF);
-			task02();
-//			task02a();
+//			task02();
+			task02a();
 //			task02b();
 //			task02c();
 			log.setLevel(Level.ALL);
@@ -127,6 +132,56 @@ public class Main {
 		for (Strecke str : list2){
 			em.persist(str);
 		}
+		
+		System.out.println("###############################################");
+		System.out.println("Fill Zug");
+		System.out.println("###############################################");
+		// Zug
+		List<Zug> list3 = new ArrayList<Zug>();
+		list3.add(new Zug(list1.get(0), list1.get(1), timeToDate(10, 5), 510, 50, 5)); // Wien, Salzburg
+		list3.add(new Zug(list1.get(0), list1.get(5), timeToDate(20, 10), 450, 60, 25)); // Wien, Linz
+		list3.add(new Zug(list1.get(2), list1.get(3), timeToDate(15, 0), 475, 50, 15)); // Amstetten, Linz
+		for (Zug z : list3){
+			em.persist(z);
+		}
+
+        Zahlung kredit = new Kreditkarte();
+        Zahlung maestro = new Maestro();
+        Zahlung praemienmeilen = new Praemienmeilen();
+		
+		System.out.println("###############################################");
+		System.out.println("Fill Ticket");
+		System.out.println("###############################################");
+		// Ticket
+		List<Ticket> list4 = new ArrayList<Ticket>();
+        list4.add(new Zeitkarte(ZeitkartenTyp.WOCHENKARTE, new Date(), list2.get(0), kredit)); // Ticket to Salzburg
+        list4.add(new Zeitkarte(ZeitkartenTyp.MONATSKARTE, new Date(2018, 3, Calendar.DAY_OF_MONTH+2), list2.get(2), praemienmeilen)); // Ticket zu Linz
+		for (Ticket ti: list4){
+			em.persist(ti);
+		}
+		
+		System.out.println("###############################################");
+		System.out.println("Fill Benutzer");
+		System.out.println("###############################################");
+		// Benutzer
+		List<Benutzer> list5 = new ArrayList<Benutzer>();
+        list5.add(new Benutzer("Michael", "Wintersperger", "mwintersperger@student.tgm.ac.at", "123Fiona", "06508831471", (long)(02), list4.get(1)));
+        list5.add(new Benutzer("Thomas", "Wintersperger", "thomas.wintersperger@chello.at", "5chneeMa44", "06642279780", (long)(10), list4.get(0)));
+		for (Benutzer ben: list5){
+			em.persist(ben);
+		}
+		
+		System.out.println("###############################################");
+		System.out.println("Fill Reservierung");
+		System.out.println("###############################################");
+		// Reservierung
+		List<Reservierung> list6 = new ArrayList<Reservierung>();
+        list6.add(new Reservierung(futureDays(1), 15, 150, StatusInfo.ONTIME, list3.get(0), list2.get(0), list5.get(0), maestro));
+        list6.add(new Reservierung(futureDays(4), 15, 150, StatusInfo.DELAYED, list3.get(1), list2.get(2), list5.get(1), kredit));
+		for (Reservierung res: list6){
+			em.persist(res);
+		}
+
 		em.flush();
 		em.getTransaction().commit();
 	}
@@ -156,6 +211,22 @@ public class Main {
 	}
 
 	public static void task02a() throws ParseException {
+		System.out.println("###############################################");
+		System.out.println("Reservierung Query");
+		System.out.println("###############################################");
+		
+//		Query q = entitymanager.getNamedQuery("getReservationsFromMail");
+		Query q = entitymanager.createNamedQuery("getReservationsFromMail");
+        q.setParameter("eMail", "mwintersperger@student.tgm.ac.at");
+ 
+		List<Reservierung> reservierungen = q.getResultList();
+//        List<Reservierung> reservierungen = q.list();
+        System.out.println("Records: "+reservierungen.size());
+        for (Reservierung r : reservierungen){
+            System.out.println(r.showReservierung());
+		}
+		System.out.println("###############################################");
+		
 	}
 
 	public static void task02b() throws ParseException {
@@ -176,4 +247,20 @@ public class Main {
 			System.out.println(violation.getMessage());
 		}
 	}
+	
+	@SuppressWarnings("deprecation")
+    public static Date futureDays(int days) {
+        Date d = new Date();
+        d.setDate(d.getDate()+days);
+        return d;
+    }
+
+    @SuppressWarnings("deprecation")
+    public static Date timeToDate(int hour, int min) {
+        Date d = new Date();
+        d.setHours(hour);
+        d.setMinutes(min);
+        return d;
+    }
+
 }
