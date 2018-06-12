@@ -14,6 +14,12 @@ import javax.validation.constraints.Pattern;
 	@NamedQuery(
 		name = "getUsersWithZeitkartentypMonatskarte",
 		query = "FROM Benutzer b INNER JOIN FETCH b.tickets AS t WHERE t.typ = 'MONATSKARTE'"
+	),
+	@NamedQuery(
+		name = "getUnreservedTicketsofStrecke",
+		// Mit inspiration erzeugt
+		query = "FROM Reservierung r LEFT JOIN FETCH Benutzer b ON b.ID = r.ID RIGHT OUTER JOIN Ticket t ON t.ID = b.id LEFT OUTER JOIN Strecke s ON s.ID = t.id "
+				+ "WHERE s.ende = :ende AND s.start = :start"
 	)
 })
 
