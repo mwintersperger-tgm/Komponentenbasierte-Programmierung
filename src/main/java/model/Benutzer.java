@@ -9,11 +9,11 @@ import javax.validation.constraints.Pattern;
 @NamedQueries({
 	@NamedQuery(
 		name = "getReservationsFromMail",
-		query = "from Reservierung r inner join fetch r.benutzer as b WHERE b.eMail = :eMail"
+		query = "FROM Reservierung r INNER JOIN FETCH r.benutzer AS b WHERE b.eMail = :eMail"
 	),
 	@NamedQuery(
 		name = "getUsersWithZeitkartentypMonatskarte",
-		query = "FROM Benutzer b inner join fetch Ticket t WHERE t.DTYPE = 'MONATSKARTE'"
+		query = "FROM Benutzer b INNER JOIN FETCH b.tickets AS t WHERE t.typ = 'MONATSKARTE'"
 	)
 })
 
