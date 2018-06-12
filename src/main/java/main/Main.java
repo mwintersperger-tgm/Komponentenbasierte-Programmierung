@@ -165,7 +165,7 @@ public class Main {
 		List<Ticket> list4 = new ArrayList<Ticket>();
         list4.add(new Zeitkarte(ZeitkartenTyp.WOCHENKARTE, new Date(), list2.get(0), kredit)); // Ticket zu Salzburg über wels
         list4.add(new Zeitkarte(ZeitkartenTyp.MONATSKARTE, new Date(2018, 3, Calendar.DAY_OF_MONTH+2), list2.get(2), praemienmeilen)); // Ticket zu Salzburg über linz
-        list4.add(new Zeitkarte(ZeitkartenTyp.MONATSKARTE, new Date(2018, 3, Calendar.DAY_OF_MONTH+3), list2.get(2), maestro)); // Ticket zu Salzburg über linz
+        list4.add(new Zeitkarte(ZeitkartenTyp.MONATSKARTE, new Date(2018, 3, Calendar.DAY_OF_MONTH+3), list2.get(1), maestro)); // Ticket zu Linz über Salzburg
 		for (Ticket ti: list4){
 			em.persist(ti);
 		}
@@ -274,7 +274,7 @@ public class Main {
 		
 		// get end bahnhof
 		Query q2 = entitymanager.createNamedQuery("getNamedBahnhof");
-        q2.setParameter("name", "SalzburgHbf");
+        q2.setParameter("name", "Linz-Ost");
  
 		List<Bahnhof> ende = q2.getResultList();
 		System.out.println("###############################################");
@@ -285,11 +285,10 @@ public class Main {
 //		Query q = entitymanager.getNamedQuery("getUnreservedTicketsofStrecke");
 		Query q = entitymanager.createNamedQuery("getUnreservedTicketsofStrecke");
         q.setParameter("start", start.get(0)); // Wien
-        q.setParameter("ende", ende.get(0)); // Salzburg
+        q.setParameter("ende", ende.get(0)); // Linz
  
 		List<Ticket> tickets = q.getResultList();
-//      List<Ticket> tickets = q.list();
-        System.out.println("Tickets: "+tickets.size());
+        System.out.println("Tickets: " + tickets.size());
         for (Ticket t : tickets){
             System.out.println(t.print());
 		}
