@@ -10,7 +10,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+// mit Persistence ...
+//import javax.persistence.Query;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -28,7 +29,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
-//import org.hibernate.query.Query;
+// mit Hibernate ...
+import org.hibernate.query.Query;
 
 import java.io.File;
 import java.util.List;
@@ -41,7 +43,11 @@ public class Main {
 
 	private static EntityManagerFactory sessionFactory;
 	@PersistenceContext
-	private static EntityManager entitymanager;
+
+	// mit Hibernate ...
+//	private static EntityManager entitymanager;
+	// mit Persistence ...
+	private static Session entitymanager;
 	
 	static SimpleDateFormat dateForm = new SimpleDateFormat("dd.MM.yyyy");
 	static SimpleDateFormat timeForm = new SimpleDateFormat("dd.MM.yyyy mm:hh");
@@ -58,20 +64,20 @@ public class Main {
 		System.out.println("###############################################");
 		try {
 
-			// Stolen from HibernateUti(https://gist.github.com/yusufcakmak/215ede715bab0e1d6489)
-			
+			// Stolen from HibernateUtil 
+			// (https://gist.github.com/yusufcakmak/215ede715bab0e1d6489)
+
+			// mit Hibernate ...
 			// loading hibernate.cfg.xml from root
-			// Mit Hibernate
-			//Configuration configuration = new Configuration();
-			//configuration.configure().buildSessionFactory();
-			
-			//SessionFactory factory = configuration.buildSessionFactory();
-			//Session entitymanager = factory.openSession();
+			Configuration configuration = new Configuration();
+			configuration.configure().buildSessionFactory();
+			SessionFactory factory = configuration.buildSessionFactory();
+			entitymanager = factory.openSession();
 			
 			log.info("Starting \"Mapping Perstistent Classes and Associations\" (task1)");
-			// Ohne Hibernate
-			sessionFactory = Persistence.createEntityManagerFactory("westbahn");
-			entitymanager = sessionFactory.createEntityManager();
+			// mit Persistence ...
+//			sessionFactory = Persistence.createEntityManagerFactory("westbahn");
+//			entitymanager = sessionFactory.createEntityManager();
 			
 			
 			fillDB(entitymanager);
@@ -83,7 +89,7 @@ public class Main {
 			task02b();
 			task02c();
 			log.setLevel(Level.ALL);
-			task03(entitymanager);
+//			task03(entitymanager);
 		} catch (ParseException e) {
 			System.out.println("###############################################");
 			System.out.println("Parse Exception");
@@ -157,8 +163,9 @@ public class Main {
 		System.out.println("###############################################");
 		// Ticket
 		List<Ticket> list4 = new ArrayList<Ticket>();
-        list4.add(new Zeitkarte(ZeitkartenTyp.WOCHENKARTE, new Date(), list2.get(0), kredit)); // Ticket to Salzburg
-        list4.add(new Zeitkarte(ZeitkartenTyp.MONATSKARTE, new Date(2018, 3, Calendar.DAY_OF_MONTH+2), list2.get(2), praemienmeilen)); // Ticket zu Linz
+        list4.add(new Zeitkarte(ZeitkartenTyp.WOCHENKARTE, new Date(), list2.get(0), kredit)); // Ticket zu Salzburg über wels
+        list4.add(new Zeitkarte(ZeitkartenTyp.MONATSKARTE, new Date(2018, 3, Calendar.DAY_OF_MONTH+2), list2.get(2), praemienmeilen)); // Ticket zu Salzburg über linz
+        list4.add(new Zeitkarte(ZeitkartenTyp.MONATSKARTE, new Date(2018, 3, Calendar.DAY_OF_MONTH+3), list2.get(2), maestro)); // Ticket zu Salzburg über linz
 		for (Ticket ti: list4){
 			em.persist(ti);
 		}
@@ -169,7 +176,8 @@ public class Main {
 		// Benutzer
 		List<Benutzer> list5 = new ArrayList<Benutzer>();
         list5.add(new Benutzer("Michael", "Wintersperger", "mwintersperger@student.tgm.ac.at", "123Fiona", "06508831471", (long)(02), list4.get(1)));
-        list5.add(new Benutzer("Thomas", "Wintersperger", "thomas.wintersperger@chello.at", "5chneeMa44", "06642279780", (long)(10), list4.get(0)));
+        list5.add(new Benutzer("Thomas", "Wintersperger", "thomas.wintersperger@chello.at", "5chneeMann", "06642279780", (long)(10), list4.get(0)));
+        list5.add(new Benutzer("Max", "Mustermann", "max.mustermann@gmail.com", "maxi", "066441517643", (long)(5), list4.get(0)));
 		for (Benutzer ben: list5){
 			em.persist(ben);
 		}
@@ -255,6 +263,7 @@ public class Main {
 		System.out.println("Tickets der Strecke ohne Reservierung");
 		System.out.println("###############################################");
 		
+		// get start bahnhof
 		Query q1 = entitymanager.createNamedQuery("getNamedBahnhof");
         q1.setParameter("name", "WienHbf");
  
@@ -263,6 +272,7 @@ public class Main {
 		System.out.println(start.get(0).getName());
 		System.out.println("###############################################");
 		
+		// get end bahnhof
 		Query q2 = entitymanager.createNamedQuery("getNamedBahnhof");
         q2.setParameter("name", "SalzburgHbf");
  
@@ -279,7 +289,7 @@ public class Main {
  
 		List<Ticket> tickets = q.getResultList();
 //      List<Ticket> tickets = q.list();
-        System.out.println("Records: "+tickets.size());
+        System.out.println("Tickets: "+tickets.size());
         for (Ticket t : tickets){
             System.out.println(t.print());
 		}
