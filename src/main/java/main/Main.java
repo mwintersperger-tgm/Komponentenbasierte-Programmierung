@@ -60,15 +60,17 @@ public class Main {
 
 			// Stolen from HibernateUti(https://gist.github.com/yusufcakmak/215ede715bab0e1d6489)
 			// loading hibernate.cfg.xml from root
-			Configuration configuration = new Configuration();
-			configuration.configure().buildSessionFactory();
+			// Mit Hibernate
+			//Configuration configuration = new Configuration();
+			//configuration.configure().buildSessionFactory();
 			
-			SessionFactory factory = configuration.buildSessionFactory();
-			Session entitymanager = factory.openSession();
+			//SessionFactory factory = configuration.buildSessionFactory();
+			//Session entitymanager = factory.openSession();
 			
 			log.info("Starting \"Mapping Perstistent Classes and Associations\" (task1)");
-			//sessionFactory = Persistence.createEntityManagerFactory("westbahn");
-			//entitymanager = sessionFactory.createEntityManager();
+			// Ohne Hibernate
+			sessionFactory = Persistence.createEntityManagerFactory("westbahn");
+			entitymanager = sessionFactory.createEntityManager();
 			
 			
 			fillDB(entitymanager);
