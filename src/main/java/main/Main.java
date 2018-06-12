@@ -226,12 +226,10 @@ public class Main {
 		System.out.println("Reservierung des Users Query");
 		System.out.println("###############################################");
 		
-//		Query q = entitymanager.getNamedQuery("getReservationsFromMail");
-		Query q = entitymanager.createNamedQuery("getReservationsFromMail");
+		Query q = entitymanager.getNamedQuery("getReservationsFromMail");
         q.setParameter("eMail", "mwintersperger@student.tgm.ac.at");
  
 		List<Reservierung> reservierungen = q.getResultList();
-//      List<Reservierung> reservierungen = q.list();
         System.out.println("Records: "+reservierungen.size());
         for (Reservierung r : reservierungen){
             System.out.println(r.showReservierung());
@@ -245,11 +243,9 @@ public class Main {
 		System.out.println("Benutzer mit Monatskarte Query");
 		System.out.println("###############################################");
 		
-//		Query q = entitymanager.getNamedQuery("getUsersWithZeitkartentypMonatskarte");
-		Query q = entitymanager.createNamedQuery("getUsersWithZeitkartentypMonatskarte");
+		Query q = entitymanager.getNamedQuery("getUsersWithZeitkartentypMonatskarte");
  
 		List<Benutzer> benutzer = q.getResultList();
-//      List<Benutzer> benutzer = q.list();
         System.out.println("Benutzer: " + benutzer.size());
         for (Benutzer b : benutzer){
             System.out.println(b.getName());
@@ -264,7 +260,7 @@ public class Main {
 		System.out.println("###############################################");
 		
 		// get start bahnhof
-		Query q1 = entitymanager.createNamedQuery("getNamedBahnhof");
+		Query q1 = entitymanager.getNamedQuery("getNamedBahnhof");
         q1.setParameter("name", "WienHbf");
  
 		List<Bahnhof> start = q1.getResultList();
@@ -273,7 +269,7 @@ public class Main {
 		System.out.println("###############################################");
 		
 		// get end bahnhof
-		Query q2 = entitymanager.createNamedQuery("getNamedBahnhof");
+		Query q2 = entitymanager.getNamedQuery("getNamedBahnhof");
         q2.setParameter("name", "Linz-Ost");
  
 		List<Bahnhof> ende = q2.getResultList();
@@ -282,8 +278,7 @@ public class Main {
 		System.out.println("###############################################");
 		
 		
-//		Query q = entitymanager.getNamedQuery("getUnreservedTicketsofStrecke");
-		Query q = entitymanager.createNamedQuery("getUnreservedTicketsofStrecke");
+		Query q = entitymanager.getNamedQuery("getUnreservedTicketsofStrecke");
         q.setParameter("start", start.get(0)); // Wien
         q.setParameter("ende", ende.get(0)); // Linz
  
