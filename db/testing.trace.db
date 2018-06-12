@@ -1,0 +1,4 @@
+2018-06-12 17:53:39 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Datenumwandlungsfehler beim Umwandeln von "MONATSKARTE"
+Data conversion error converting "MONATSKARTE"; SQL statement:
+select benutzer0_.ID as ID1_1_0_, ticket1_.ID as ID2_5_1_, benutzer0_.eMail as eMail2_1_0_, benutzer0_.nachName as nachName3_1_0_, benutzer0_.passwort as passwort4_1_0_, benutzer0_.smsNummer as smsNumme5_1_0_, benutzer0_.tickets_ID as tickets_8_1_0_, benutzer0_.verbuchtePraemienMeilen as verbucht6_1_0_, benutzer0_.vorName as vorName7_1_0_, ticket1_.strecke_ID as strecke_5_5_1_, ticket1_.gueltigAb as gueltigA3_5_1_, ticket1_.typ as typ4_5_1_, ticket1_.DTYPE as DTYPE1_5_1_ from Benutzer benutzer0_ inner join Ticket ticket1_ on benutzer0_.tickets_ID=ticket1_.ID where ticket1_.typ='MONATSKARTE' [22018-197]

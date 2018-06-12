@@ -80,7 +80,7 @@ public class Main {
 			log.setLevel(Level.OFF);
 			task02();
 			task02a();
-//			task02b();
+			task02b();
 //			task02c();
 			log.setLevel(Level.ALL);
 			task03(entitymanager);
@@ -215,7 +215,7 @@ public class Main {
 
 	public static void task02a() throws ParseException {
 		System.out.println("###############################################");
-		System.out.println("Reservierung Query");
+		System.out.println("Reservierung des Users Query");
 		System.out.println("###############################################");
 		
 //		Query q = entitymanager.getNamedQuery("getReservationsFromMail");
@@ -223,7 +223,7 @@ public class Main {
         q.setParameter("eMail", "mwintersperger@student.tgm.ac.at");
  
 		List<Reservierung> reservierungen = q.getResultList();
-//        List<Reservierung> reservierungen = q.list();
+//      List<Reservierung> reservierungen = q.list();
         System.out.println("Records: "+reservierungen.size());
         for (Reservierung r : reservierungen){
             System.out.println(r.showReservierung());
@@ -233,6 +233,21 @@ public class Main {
 	}
 
 	public static void task02b() throws ParseException {
+		System.out.println("###############################################");
+		System.out.println("Benutzer mit Monatskarte Query");
+		System.out.println("###############################################");
+		
+//		Query q = entitymanager.getNamedQuery("getUsersWithZeitkartentypMonatskarte");
+		Query q = entitymanager.createNamedQuery("getUsersWithZeitkartentypMonatskarte");
+ 
+		List<Benutzer> benutzer = q.getResultList();
+//      List<Benutzer> benutzer = q.list();
+        System.out.println("Benutzer: " + benutzer.size());
+        for (Benutzer b : benutzer){
+            System.out.println(b.getName());
+		}
+		System.out.println("###############################################");
+		
 	}
 
 	public static void task02c() throws ParseException {

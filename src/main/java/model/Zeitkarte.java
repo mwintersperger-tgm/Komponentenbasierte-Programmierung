@@ -8,7 +8,8 @@ import javax.persistence.*;
 @Entity
 public class Zeitkarte extends Ticket implements Serializable {
 	private Date gueltigAb;
-
+	
+    @Enumerated(EnumType.STRING)
 	private ZeitkartenTyp typ;
 	
 	public Zeitkarte() {}
